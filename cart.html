@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>سلة المشتريات</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h2><a href="#" class="logo">رشف</a></h2>
+    <ul>
+        <li><a href="home.html">الرئيسية</a></li>
+        <li><a href="product.html">المنتجات</a></li>
+        <li><a href="shop.html">المتجر</a></li>
+        <li><a href="about.html">من نحن</a></li>
+        <li><a href="contact.html">تواصل معنا</a></li>
+        <li><a href="cart.html" class="active">السلة</a></li>
+    </ul>
+  </header>
+
+  <section class="main" style="padding: 40px; text-align: center;">
+    <h1 style="color: white;">سلة المشتريات</h1>
+    <ul id="cart-list" style="list-style: none; padding: 0;"></ul>
+
+    <div style="margin-top: 30px;">
+      <button onclick="clearCart()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">تفريغ السلة</button>
+      <button onclick="completeOrder()" style="padding: 10px 20px; font-size: 16px; margin: 10px;">إتمام الطلب</button>
+    </div>
+  </section>
+
+  <script>
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartList = document.getElementById("cart-list");
+    let total = 0;
+
+    if (cartItems.length === 0) {
+      cartList.innerHTML = "<p style='color: white;'>السلة فارغة.</p>";
+    } else {
+      cartItems.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.style.marginBottom = "20px";
+        li.style.background = "#fff";
+        li.style.padding = "15px";
+        li.style.borderRadius = "10px";
+        li.style.display = "flex";
+        li.style.alignItems = "center";
+        li.style.justifyContent = "space-between";
+        li.style.width = "80%";
+        li.style.margin = "20px auto";
+
+        const left = document.createElement("div");
+        left.style.display = "flex";
+        left.style.alignItems = "center";
+
+        const img = document.createElement("img");
+        img.src = item.image;
+        img.alt = item.name;
+        img.style.width = "70px";
+        img.style.height = "70px";
+        img.style.borderRadius = "8px";
+        img.style.marginLeft = "15px";
+
+        const info = document.createElement("div");
+        info.textContent = item.name + ' - ' + Number(item.price).toFixed(2) + ' ر.س';
+
+        left.appendChild(img);
+        left.appendChild(info);
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "حذف";
+        removeBtn.onclick = () => removeItem(index);
+        removeBtn.style.background = "#a00";
+        removeBtn.style.color = "#fff";
+        removeBtn.style.border = "none";
+        removeBtn.style.padding = "8px 12px";
+        removeBtn.style.borderRadius = "6px";
+        removeBtn.style.cursor = "pointer";
+
+        li.appendChild(left);
+        li.appendChild(removeBtn);
+        cartList.appendChild(li);
+
+        total += Number(item.price);
+      });
+
+      const totalLi = document.createElement("li");
+      totalLi.style.marginTop = "30px";
+      totalLi.style.fontWeight = "bold";
+      totalLi.style.fontSize = "18px";
+      totalLi.style.color = "#fff";
+      totalLi.textContent = 'المجموع: ' + total.toFixed(2) + ' ر.س';
+      cartList.appendChild(totalLi);
+    }
+
+    function removeItem(index) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      location.reload();
+    }
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      location.reload();
+    }
+
+    function completeOrder() {
+      localStorage.removeItem("cart");
+      window.location.href = "thankyou.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      background: #6d1259;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form onsubmit="login(event)">
+    <h2>تسجيل الدخول</h2>
+    <input type="text" id="username" placeholder="اسم المستخدم" required>
+    <input type="password" id="password" placeholder="كلمة المرور" required>
+    <button type="submit">دخول</button>
+  </form>
+
+  <script>
+    function login(event) {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === "rashaf" && password === "1234") {
+        window.location.href = "home.html";
+      } else {
+        alert("بيانات الدخول غير صحيحة");
+      }
+    }
+  </script>
+</body>
+</html>
